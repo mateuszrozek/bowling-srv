@@ -19,7 +19,7 @@ public class GameServlet extends HttpServlet {
 
     private Game inMemoryGame = new Game();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         setAccessControlHeaders(response);
         PrintWriter out = response.getWriter();
         String pinsParameter = request.getParameter("pins");

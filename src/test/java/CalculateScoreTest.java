@@ -1,4 +1,7 @@
-import com.bluelotussoftware.tomcat.embedded.domain.*;
+import com.bluelotussoftware.tomcat.embedded.domain.Frame;
+import com.bluelotussoftware.tomcat.embedded.domain.ScoreService;
+import com.bluelotussoftware.tomcat.embedded.domain.ScoreServiceImpl;
+import com.bluelotussoftware.tomcat.embedded.domain.Throw;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,73 +10,196 @@ import java.util.List;
 
 public class CalculateScoreTest {
 
-    private final GameService gameService = new GameServiceImpl();
+    private final ScoreService scoreService = new ScoreServiceImpl();
 
     @Test
-    public void shouldSumOneNotSpecialThrow(){
-        Game game = new Game();
-        int pins = 2;
-
-        Game updatedGame = gameService.updateGame(game, pins);
-
-        Assert.assertEquals(pins, (int)updatedGame.getFrames().get(0).getScore());
-    }
-
-
-    @Test
-    public void shouldSumTwoNotSpecialThrows(){
-        Game game = new Game();
-        Frame frame = new Frame();
-        Throw firstThrow = new Throw();
-        int firstThrowPins = 2;
-        firstThrow.setPins(firstThrowPins);
-        frame.setFirstThrow(firstThrow);
-        List<Frame> frames = new ArrayList<>();
-        frames.add(frame);
-        game.setFrames(frames);
-
-        int pins = 3;
-
-        Game updatedGame = gameService.updateGame(game, pins);
-
-        Assert.assertEquals(5, (int)updatedGame.getFrames().get(1).getScore());
-        Assert.assertEquals(2, game.getFrames().get(0).getFirstThrow().getPins());
-        Assert.assertEquals(3, game.getFrames().get(0).getSecondThrow().getPins());
-    }
-
-    @Test
-    public void shouldSumThreeNotSpecialThrows(){
-        Game game = new Game();
-        Frame frame = new Frame();
-
-        Throw firstThrow = new Throw();
-        int firstThrowPins = 2;
-        firstThrow.setPins(firstThrowPins);
-        frame.setFirstThrow(firstThrow);
-
-        Throw secondThrow = new Throw();
-        int secondThrowPins = 3;
-        secondThrow.setPins(secondThrowPins);
-        frame.setSecondThrow(secondThrow);
+    public void shouldNotCalculateScoreAfterFirstNormalThrow() {
 
         List<Frame> frames = new ArrayList<>();
-        frames.add(frame);
-        game.setFrames(frames);
 
-        int pins = 4;
-
-        Game updatedGame = gameService.updateGame(game, pins);
-
-        Assert.assertEquals(9, (int)updatedGame.getFrames().get(0).getScore());
-        Assert.assertEquals(2, game.getFrames().get(0).getFirstThrow().getPins());
-        Assert.assertEquals(3, game.getFrames().get(0).getSecondThrow().getPins());
-        Assert.assertEquals(4, game.getFrames().get(1).getFirstThrow().getPins());
-    }
-
-    @Test
-    public void shouldSumTwoThrows(){
-        Game game = new Game();
         Frame firstFrame = new Frame();
         Throw firstThrow = new Throw();
+        int firstThrowPins = 4;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+        frames.add(firstFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNull(score);
+        Assert.assertFalse(frames.get(0).isScoreKnown());
+        Assert.assertNull(frames.get(0).getScore());
     }
+
+    @Test
+    public void shouldCalculateScoreAfterSecondNormalThrow() {
+
+        List<Frame> frames = new ArrayList<>();
+
+        Frame firstFrame = new Frame();
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 4;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 4;
+        secondThrow.setPins(secondThrowPins);
+        firstFrame.setSecondThrow(secondThrow);
+
+        frames.add(firstFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNotNull(score);
+        Assert.assertEquals(8, (int)frames.get(0).getScore());
+        Assert.assertTrue(frames.get(0).isScoreKnown());
+    }
+
+    @Test
+    public void shouldNotCalculateScoreAfterStrikeThrow() {
+
+        List<Frame> frames = new ArrayList<>();
+
+        Frame firstFrame = new Frame();
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 10;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+
+        frames.add(firstFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNull(score);
+        Assert.assertNull(frames.get(0).getScore());
+        Assert.assertFalse(frames.get(0).isScoreKnown());
+    }
+
+    @Test
+    public void shouldNotCalculateScoreAfterStrikeThrowAndNormalThrow() {
+
+        List<Frame> frames = new ArrayList<>();
+
+        Frame firstFrame = new Frame();
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 10;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+
+        frames.add(firstFrame);
+
+        Frame secondFrame = new Frame();
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 4;
+        secondThrow.setPins(secondThrowPins);
+        secondFrame.setFirstThrow(secondThrow);
+
+        frames.add(secondFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNull(score);
+        Assert.assertNull(frames.get(0).getScore());
+        Assert.assertFalse(frames.get(0).isScoreKnown());
+    }
+
+    @Test
+    public void shouldNotCalculateScoreAfterStrikeThrowAndTwoNormalThrows() {
+
+        List<Frame> frames = new ArrayList<>();
+
+        Frame firstFrame = new Frame();
+        firstFrame.setStrike(true);
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 10;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+
+        frames.add(firstFrame);
+
+        Frame secondFrame = new Frame();
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 4;
+        secondThrow.setPins(secondThrowPins);
+        secondFrame.setFirstThrow(secondThrow);
+        Throw thirdThrow = new Throw();
+        int thirdThrowPins = 4;
+        thirdThrow.setPins(thirdThrowPins);
+        secondFrame.setSecondThrow(secondThrow);
+
+        frames.add(secondFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNotNull(score);
+        Assert.assertNotNull(frames.get(0).getScore());
+        Assert.assertNotNull(frames.get(1).getScore());
+        Assert.assertEquals(18 , (int)frames.get(0).getScore());
+        Assert.assertEquals(26 , (int)frames.get(1).getScore());
+        Assert.assertTrue(frames.get(0).isScoreKnown());
+        Assert.assertTrue(frames.get(1).isScoreKnown());
+    }
+
+    @Test
+    public void shouldNotCalculateScoreAfterSpareThrow() {
+
+        List<Frame> frames = new ArrayList<>();
+
+        Frame firstFrame = new Frame();
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 4;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 6;
+        secondThrow.setPins(secondThrowPins);
+        firstFrame.setSecondThrow(secondThrow);
+        firstFrame.setSpare(true);
+
+        frames.add(firstFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNull(score);
+        Assert.assertNull(frames.get(0).getScore());
+        Assert.assertFalse(frames.get(0).isScoreKnown());
+    }
+
+    @Test
+    public void shouldCalculateScoreAfterSpareThrowAndNormalThrow() {
+
+        List<Frame> frames = new ArrayList<>();
+
+        Frame firstFrame = new Frame();
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 4;
+        firstThrow.setPins(firstThrowPins);
+        firstFrame.setFirstThrow(firstThrow);
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 6;
+        secondThrow.setPins(secondThrowPins);
+        firstFrame.setSecondThrow(secondThrow);
+        firstFrame.setSpare(true);
+        frames.add(firstFrame);
+
+        Frame secondFrame = new Frame();
+        Throw thirdThrow = new Throw();
+        int thirdThrowPins = 5;
+        thirdThrow.setPins(thirdThrowPins);
+        secondFrame.setFirstThrow(thirdThrow);
+
+        frames.add(secondFrame);
+
+        Integer score = scoreService.calculateScore(frames);
+
+        Assert.assertNull(score);
+        Assert.assertNotNull(frames.get(0).getScore());
+        Assert.assertNull(frames.get(1).getScore());
+        Assert.assertTrue(frames.get(0).isScoreKnown());
+        Assert.assertFalse(frames.get(1).isScoreKnown());
+        Assert.assertEquals(15 , (int)frames.get(0).getScore());
+    }
+
+
 }

@@ -86,7 +86,48 @@ public class DetermineCurrentFrameTest {
 
         Assert.assertEquals(2, game.getFrames().size());
         Assert.assertEquals(determinedFrame, game.getFrames().get(1));
+    }
 
+    @Test
+    public void shouldDetermineNextFrameWhenNinthIsFull() {
+        List<Frame> frames = generateFrames(9);
 
+        Game game = new Game();
+        game.setFrames(frames);
+
+        Frame determinedFrame = frameService.determineCurrentFrame(game);
+
+        Assert.assertEquals(10, game.getFrames().size());
+        Assert.assertEquals(determinedFrame, game.getFrames().get(9));
+    }
+
+    @Test
+    public void shouldDetermineNextFrameWhenTenthIsNotFull() {
+        List<Frame> frames = generateFrames(8);
+        Throw firstThrow = new Throw();
+        firstThrow.setPins(2);
+        Frame frame = new Frame();
+        frame.setFirstThrow(firstThrow);
+        frames.add(frame);
+
+        Game game = new Game();
+        game.setFrames(frames);
+
+        Frame determinedFrame = frameService.determineCurrentFrame(game);
+
+        Assert.assertEquals(10, game.getFrames().size());
+        Assert.assertEquals(determinedFrame, game.getFrames().get(9));
+    }
+
+    private List<Frame> generateFrames(int number) {
+        List<Frame> frames = new ArrayList<>();
+        for (int i = 0; i < number+1; i++) {
+            Throw firstThrow = new Throw();
+            firstThrow.setPins(10);
+            Frame frame = new Frame();
+            frame.setFirstThrow(firstThrow);
+            frames.add(frame);
+        }
+        return frames;
     }
 }

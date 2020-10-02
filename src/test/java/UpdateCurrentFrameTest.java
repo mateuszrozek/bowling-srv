@@ -11,7 +11,7 @@ public class UpdateCurrentFrameTest {
 
 
     @Test
-    public void shouldSetScoreForFirstThrow() {
+    public void shouldSetPinsForFirstThrow() {
 
         Frame currentFrame = new Frame();
         int pins = 1;
@@ -25,7 +25,7 @@ public class UpdateCurrentFrameTest {
     }
 
     @Test
-    public void shouldSetScoreForSecondThrow() {
+    public void shouldSetPinsForSecondThrow() {
         Frame currentFrame = new Frame();
         Throw firstThrow = new Throw();
         currentFrame.setFirstThrow(firstThrow);
@@ -41,8 +41,6 @@ public class UpdateCurrentFrameTest {
     @Test
     public void shouldSetFrameAsStrike() {
         Frame currentFrame = new Frame();
-//        Throw firstThrow = new Throw();
-//        currentFrame.setFirstThrow(firstThrow);
 
         int pins = 10;
 
@@ -67,4 +65,169 @@ public class UpdateCurrentFrameTest {
         Assert.assertTrue(currentFrame.isSpare());
         Assert.assertFalse(currentFrame.isStrike());
     }
+
+    @Test
+    public void shouldSetPinsInFirstThrowLastFrame() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        int pins = 2;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertNotNull(currentFrame.getFirstThrow());
+        Assert.assertEquals(pins, currentFrame.getFirstThrow().getPins());
+        Assert.assertNull(currentFrame.getSecondThrow());
+    }
+
+    @Test
+    public void shouldSetPinsInSecondThrowLastFrame() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 2;
+        firstThrow.setPins(firstThrowPins);
+        currentFrame.setFirstThrow(firstThrow);
+
+        int pins = 3;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertNotNull(currentFrame.getSecondThrow());
+        Assert.assertEquals(pins, currentFrame.getSecondThrow().getPins());
+    }
+
+
+    @Test
+    public void shouldNotSetPinsInThirdThrowLastFrame() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 2;
+        firstThrow.setPins(firstThrowPins);
+        currentFrame.setFirstThrow(firstThrow);
+
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 2;
+        secondThrow.setPins(secondThrowPins);
+        currentFrame.setSecondThrow(secondThrow);
+
+        int pins = 3;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertNotNull(currentFrame.getFirstThrow());
+        Assert.assertNotNull(currentFrame.getSecondThrow());
+        Assert.assertNotNull(currentFrame.getBonusThrow());
+    }
+
+    @Test
+    public void shouldSetLastFrameAsStrikeFirstThrow() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        int pins = 10;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertTrue(currentFrame.isStrike());
+        Assert.assertFalse(currentFrame.isSpare());
+    }
+
+    @Test
+    public void shouldSetLastFrameAsStrikeSecondThrow() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 2;
+        firstThrow.setPins(firstThrowPins);
+        currentFrame.setFirstThrow(firstThrow);
+
+        int pins = 10;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertTrue(currentFrame.isStrike());
+        Assert.assertFalse(currentFrame.isSpare());
+    }
+
+    @Test
+    public void shouldSetLastFrameAsStrikeThirdThrow() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 2;
+        firstThrow.setPins(firstThrowPins);
+        currentFrame.setFirstThrow(firstThrow);
+
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 2;
+        secondThrow.setPins(secondThrowPins);
+        currentFrame.setSecondThrow(secondThrow);
+
+        int pins = 10;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertTrue(currentFrame.isStrike());
+        Assert.assertFalse(currentFrame.isSpare());
+    }
+
+    @Test
+    public void shouldNotSetFrameAsSpareFirstThrow() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        int pins = 10;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertFalse(currentFrame.isSpare());
+        Assert.assertTrue(currentFrame.isStrike());
+    }
+
+    @Test
+    public void shouldSetFrameAsSpareSecondThrow() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 2;
+        firstThrow.setPins(firstThrowPins);
+        currentFrame.setFirstThrow(firstThrow);
+
+        int pins = 8;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertTrue(currentFrame.isSpare());
+        Assert.assertFalse(currentFrame.isStrike());
+    }
+
+    @Test
+    public void shouldSetFrameAsSpareThirdThrow() {
+        Frame currentFrame = new Frame();
+        currentFrame.setLastFrame(true);
+
+        Throw firstThrow = new Throw();
+        int firstThrowPins = 2;
+        firstThrow.setPins(firstThrowPins);
+        currentFrame.setFirstThrow(firstThrow);
+
+        Throw secondThrow = new Throw();
+        int secondThrowPins = 2;
+        secondThrow.setPins(secondThrowPins);
+        currentFrame.setSecondThrow(secondThrow);
+
+        int pins = 8;
+
+        frameService.updateCurrentFrame(currentFrame, pins);
+
+        Assert.assertTrue(currentFrame.isSpare());
+        Assert.assertFalse(currentFrame.isStrike());
+    }
+
 }

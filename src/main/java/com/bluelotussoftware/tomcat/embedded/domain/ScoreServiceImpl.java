@@ -3,7 +3,10 @@ package com.bluelotussoftware.tomcat.embedded.domain;
 import java.util.List;
 import java.util.Optional;
 
+import static com.bluelotussoftware.tomcat.embedded.domain.BowlingConstants.MAX_PINS;
+
 public class ScoreServiceImpl implements ScoreService {
+
     @Override
     public Integer calculateScore(List<Frame> frames) {
 
@@ -46,7 +49,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     private boolean thirdThrowNotAllowed(Frame currentFrame) {
-        return !currentFrame.isLastFrame() && null != currentFrame.getSecondThrow() && currentFrame.getSecondThrow().getPins() < 10;
+        return currentFrame.isLastFrame() && null != currentFrame.getSecondThrow() && currentFrame.getSecondThrow().getPins() < MAX_PINS;
     }
 
     private boolean isFrameFull(Frame currentFrame) {
@@ -66,7 +69,7 @@ public class ScoreServiceImpl implements ScoreService {
         if (null != frame.getSecondThrow()) {
             sum += frame.getSecondThrow().getPins();
         }
-        if (null != frame.getBonusThrow()){
+        if (null != frame.getBonusThrow() && !thirdThrowNotAllowed(frame)){
             sum += frame.getBonusThrow().getPins();
         }
         return sum;
