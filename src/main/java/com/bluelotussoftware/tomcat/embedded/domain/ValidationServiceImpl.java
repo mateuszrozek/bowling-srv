@@ -8,17 +8,27 @@ public class ValidationServiceImpl implements ValidationService {
 
     private final FrameService frameService = new FrameServiceImpl();
 
-    public boolean validateRequest(int pins, HttpServletResponse response, Game game) throws Exception {
+    public boolean validateRequest(String pinsParameter, HttpServletResponse response, Game game) throws Exception {
         if (null != game.getFrames() && game.getFrames().size() == MAX_FRAMES && game.getFrames().get(MAX_FRAMES - 1).isScoreKnown()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Game over! Maximal number of houses already played");
             return false;
         }
-        if (wrongNumberPins(pins, game)) {
+
+        try {
+            int pins = Integer.parseInt(pinsParameter);
+            if (wrongNumberPins(pins, game)) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("Wrong number of pins! Sum of struck pins is between 0 and 10 in each house");
+                return false;
+            }
+        }
+        catch (NumberFormatException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Wrong number of pins! Sum of struck pins is between 0 and 10 in each house");
+            response.getWriter().println("Wrong input passed! Try to pass an integer");
             return false;
         }
+
         return true;
     }
 

@@ -23,9 +23,10 @@ public class GameServlet extends HttpServlet {
         setAccessControlHeaders(response);
         PrintWriter out = response.getWriter();
         String pinsParameter = request.getParameter("pins");
-        int pins = Integer.parseInt(pinsParameter);
 
-        if (validationService.validateRequest(pins, response, inMemoryGame)) {
+        if (validationService.validateRequest(pinsParameter, response, inMemoryGame)) {
+
+            int pins = Integer.parseInt(pinsParameter);
 
             Game updatedGame = gameService.updateGame(inMemoryGame, pins);
             inMemoryGame = updatedGame;
