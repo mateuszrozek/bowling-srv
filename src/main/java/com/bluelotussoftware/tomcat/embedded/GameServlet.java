@@ -2,13 +2,12 @@ package com.bluelotussoftware.tomcat.embedded;
 
 import com.bluelotussoftware.tomcat.embedded.domain.*;
 import com.google.gson.Gson;
+import lombok.SneakyThrows;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "GameServlet")
@@ -19,13 +18,14 @@ public class GameServlet extends HttpServlet {
 
     private Game inMemoryGame = new Game();
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @SneakyThrows
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
         setAccessControlHeaders(response);
         PrintWriter out = response.getWriter();
         String pinsParameter = request.getParameter("pins");
         int pins = Integer.parseInt(pinsParameter);
 
-        if (validationService.validateRequest(pins, response, inMemoryGame)){
+        if (validationService.validateRequest(pins, response, inMemoryGame)) {
 
             Game updatedGame = gameService.updateGame(inMemoryGame, pins);
             inMemoryGame = updatedGame;
@@ -40,7 +40,7 @@ public class GameServlet extends HttpServlet {
         out.flush();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         setAccessControlHeaders(response);
         inMemoryGame = new Game();
     }

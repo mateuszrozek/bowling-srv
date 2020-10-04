@@ -1,7 +1,6 @@
 package com.bluelotussoftware.tomcat.embedded.domain;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static com.bluelotussoftware.tomcat.embedded.domain.BowlingConstants.*;
 
@@ -9,19 +8,18 @@ public class ValidationServiceImpl implements ValidationService {
 
     private final FrameService frameService = new FrameServiceImpl();
 
-    public boolean validateRequest(int pins, HttpServletResponse response, Game game) throws IOException {
-        boolean requestValid = true;
-        if (null != game.getFrames() && game.getFrames().size() > MAX_FRAMES) {
+    public boolean validateRequest(int pins, HttpServletResponse response, Game game) throws Exception {
+        if (null != game.getFrames() && game.getFrames().size() == MAX_FRAMES && game.getFrames().get(MAX_FRAMES - 1).isScoreKnown()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("<html><body><p>Game over! Maximal number of houses already played!</p></body></html>");
-            requestValid = false;
+            response.getWriter().println("Game over! Maximal number of houses already played");
+            return false;
         }
         if (wrongNumberPins(pins, game)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("<html><body><p>Bad request! Sum of stroke pins is between 0 and 10 in each house!</p></body></html>");
-            requestValid = false;
+            response.getWriter().println("Wrong number of pins! Sum of struck pins is between 0 and 10 in each house");
+            return false;
         }
-        return requestValid;
+        return true;
     }
 
     private boolean wrongNumberPins(int pins, Game game) {

@@ -49,7 +49,7 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     private boolean thirdThrowNotAllowed(Frame currentFrame) {
-        return currentFrame.isLastFrame() && null != currentFrame.getSecondThrow() && currentFrame.getSecondThrow().getPins() < MAX_PINS;
+        return currentFrame.isLastFrame() && null != currentFrame.getSecondThrow() && currentFrame.getSecondThrow().getPins() < MAX_PINS && !currentFrame.isSpare() && !currentFrame.isStrike();
     }
 
     private boolean isFrameFull(Frame currentFrame) {
@@ -69,7 +69,7 @@ public class ScoreServiceImpl implements ScoreService {
         if (null != frame.getSecondThrow()) {
             sum += frame.getSecondThrow().getPins();
         }
-        if (null != frame.getBonusThrow() && !thirdThrowNotAllowed(frame)){
+        if (null != frame.getBonusThrow() && !thirdThrowNotAllowed(frame)) {
             sum += frame.getBonusThrow().getPins();
         }
         return sum;
