@@ -19,6 +19,4 @@ public class Frame {
     private boolean isScoreKnown;
     private boolean isLastFrame;
     private Integer score;
-
-
 }

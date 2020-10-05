@@ -37,12 +37,12 @@ public class Main {
      * Main method.
      *
      * @param args command line arguments passed to the application. Currently
-     * unused.
-     * @throws LifecycleException If a life cycle exception occurs.
+     *             unused.
+     * @throws LifecycleException   If a life cycle exception occurs.
      * @throws InterruptedException If the application is interrupted while
-     * waiting for requests.
-     * @throws ServletException If the servlet handling the response has an
-     * exception.
+     *                              waiting for requests.
+     * @throws ServletException     If the servlet handling the response has an
+     *                              exception.
      */
     public static void main(String[] args)
             throws LifecycleException, InterruptedException, ServletException {
