@@ -41,6 +41,7 @@ public class GameServlet extends HttpServlet {
         out.flush();
     }
 
+    //used for resetting the game without resetting server
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         setAccessControlHeaders(response);
         inMemoryGame = new Game();
