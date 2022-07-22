@@ -1,4 +1,6 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.api.service;
+
+import pl.rozekm.bowling.api.dto.Game;
 
 import javax.servlet.http.HttpServletResponse;
 

@@ -1,4 +1,4 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

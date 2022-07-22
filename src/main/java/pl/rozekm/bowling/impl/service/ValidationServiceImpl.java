@@ -1,8 +1,13 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.impl.service;
+
+import pl.rozekm.bowling.api.service.FrameService;
+import pl.rozekm.bowling.api.service.ValidationService;
+import pl.rozekm.bowling.api.dto.Frame;
+import pl.rozekm.bowling.api.dto.Game;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static com.bluelotussoftware.tomcat.embedded.domain.BowlingConstants.*;
+import static pl.rozekm.bowling.impl.utils.BowlingConstants.*;
 
 public class ValidationServiceImpl implements ValidationService {
 

@@ -1,11 +1,15 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.impl.service;
 
+import pl.rozekm.bowling.api.service.FrameService;
+import pl.rozekm.bowling.api.dto.Frame;
+import pl.rozekm.bowling.api.dto.Game;
+import pl.rozekm.bowling.api.dto.Throw;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bluelotussoftware.tomcat.embedded.domain.BowlingConstants.*;
+import static pl.rozekm.bowling.impl.utils.BowlingConstants.*;
 
 public class FrameServiceImpl implements FrameService {
 

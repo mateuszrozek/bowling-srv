@@ -1,4 +1,8 @@
-import com.bluelotussoftware.tomcat.embedded.domain.*;
+import pl.rozekm.bowling.api.dto.Frame;
+import pl.rozekm.bowling.api.dto.Game;
+import pl.rozekm.bowling.api.dto.Throw;
+import pl.rozekm.bowling.api.service.GameService;
+import pl.rozekm.bowling.impl.service.GameServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 

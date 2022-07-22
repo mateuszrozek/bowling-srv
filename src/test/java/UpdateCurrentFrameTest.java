@@ -1,7 +1,7 @@
-import com.bluelotussoftware.tomcat.embedded.domain.Frame;
-import com.bluelotussoftware.tomcat.embedded.domain.FrameService;
-import com.bluelotussoftware.tomcat.embedded.domain.FrameServiceImpl;
-import com.bluelotussoftware.tomcat.embedded.domain.Throw;
+import pl.rozekm.bowling.api.dto.Frame;
+import pl.rozekm.bowling.api.service.FrameService;
+import pl.rozekm.bowling.impl.service.FrameServiceImpl;
+import pl.rozekm.bowling.api.dto.Throw;
 import org.junit.Assert;
 import org.junit.Test;
 

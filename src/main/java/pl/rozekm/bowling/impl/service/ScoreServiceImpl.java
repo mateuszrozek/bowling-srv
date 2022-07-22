@@ -1,9 +1,12 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.impl.service;
+
+import pl.rozekm.bowling.api.service.ScoreService;
+import pl.rozekm.bowling.api.dto.Frame;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.bluelotussoftware.tomcat.embedded.domain.BowlingConstants.MAX_PINS;
+import static pl.rozekm.bowling.impl.utils.BowlingConstants.MAX_PINS;
 
 public class ScoreServiceImpl implements ScoreService {
 

@@ -1,5 +1,5 @@
-import com.bluelotussoftware.tomcat.embedded.domain.ValidationService;
-import com.bluelotussoftware.tomcat.embedded.domain.ValidationServiceImpl;
+import pl.rozekm.bowling.api.service.ValidationService;
+import pl.rozekm.bowling.impl.service.ValidationServiceImpl;
 import org.junit.Test;
 
 import java.io.IOException;

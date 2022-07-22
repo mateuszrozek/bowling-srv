@@ -1,6 +1,12 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.impl.service;
 
-import static com.bluelotussoftware.tomcat.embedded.domain.BowlingConstants.MAX_FRAMES;
+import pl.rozekm.bowling.api.service.FrameService;
+import pl.rozekm.bowling.api.service.GameService;
+import pl.rozekm.bowling.api.service.ScoreService;
+import pl.rozekm.bowling.api.dto.Frame;
+import pl.rozekm.bowling.api.dto.Game;
+
+import static pl.rozekm.bowling.impl.utils.BowlingConstants.MAX_FRAMES;
 
 public class GameServiceImpl implements GameService {
 

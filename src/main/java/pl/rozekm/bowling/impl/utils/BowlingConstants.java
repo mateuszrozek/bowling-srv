@@ -1,4 +1,4 @@
-package com.bluelotussoftware.tomcat.embedded.domain;
+package pl.rozekm.bowling.impl.utils;
 
 public class BowlingConstants {
 

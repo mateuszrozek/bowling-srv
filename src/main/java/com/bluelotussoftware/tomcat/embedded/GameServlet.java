@@ -1,7 +1,11 @@
 package com.bluelotussoftware.tomcat.embedded;
 
-import com.bluelotussoftware.tomcat.embedded.domain.*;
+import pl.rozekm.bowling.api.dto.Game;
+import pl.rozekm.bowling.api.service.GameService;
+import pl.rozekm.bowling.api.service.ValidationService;
 import com.google.gson.Gson;
+import pl.rozekm.bowling.impl.service.GameServiceImpl;
+import pl.rozekm.bowling.impl.service.ValidationServiceImpl;
 import lombok.SneakyThrows;
 
 import javax.servlet.annotation.WebServlet;
