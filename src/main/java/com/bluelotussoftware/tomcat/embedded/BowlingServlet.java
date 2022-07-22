@@ -20,11 +20,6 @@ public class BowlingServlet extends HttpServlet {
     private GameService gameService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         setAccessControlHeaders(response);
         String gameString = request.getParameter("game");
