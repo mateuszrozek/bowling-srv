@@ -1,5 +1,6 @@
 package pl.rozekm.bowling.impl.service;
 
+import pl.rozekm.bowling.api.dto.GameDTO;
 import pl.rozekm.bowling.api.service.FrameService;
 import pl.rozekm.bowling.api.service.GameService;
 import pl.rozekm.bowling.api.service.ScoreService;
@@ -24,6 +25,11 @@ public class GameServiceImpl implements GameService {
         game.setOverallScore(score);
 
         return game;
+    }
+
+    @Override
+    public GameDTO updateGameDTO(GameDTO gameDTO, int pinsNumber) {
+        return gameDTO;
     }
 
     private boolean isThirdThrowAllowed(Game game) {
