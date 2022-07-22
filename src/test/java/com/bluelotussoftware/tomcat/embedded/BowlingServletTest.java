@@ -52,7 +52,6 @@ public class BowlingServletTest extends TestCase {
 
         bowlingServlet.doPost(request, response);
 
-        printWriter.flush();
         String result = stringWriter.toString();
         assertThat(result, is(notNullValue()));
         assertThat(result, is("{\"frames\":[{\"firstRoll\":5,\"secondRoll\":0}]}"));
