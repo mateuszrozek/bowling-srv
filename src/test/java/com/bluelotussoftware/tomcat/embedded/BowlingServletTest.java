@@ -40,7 +40,6 @@ public class BowlingServletTest extends TestCase {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 
-        PrintWriter printWriter = createPrintWriter();
         GameDTO gameDTO = createGameDTO();
         when(request.getParameter("game")).thenReturn(createGameString(gameDTO));
         when(request.getParameter("pins")).thenReturn("5");
