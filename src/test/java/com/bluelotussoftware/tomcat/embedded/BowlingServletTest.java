@@ -43,6 +43,7 @@ public class BowlingServletTest extends TestCase {
         GameDTO gameDTO = createGameDTO();
         when(request.getParameter("game")).thenReturn(createGameString(gameDTO));
         when(request.getParameter("pins")).thenReturn("5");
+        //test
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
