@@ -7,10 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class FrameDTO {
-
-    private Integer firstRoll;
-    private Integer secondRoll;
+@AllArgsConstructor
+public class TenthFrameDTO extends FrameDTO {
+    private Integer thirdRoll;
 }
