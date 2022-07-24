@@ -1,10 +1,11 @@
 package pl.rozekm.bowling.impl.service;
 
-import pl.rozekm.bowling.api.service.FrameService;
+import com.google.common.base.Preconditions;
 import pl.rozekm.bowling.api.dto.Frame;
+import pl.rozekm.bowling.api.dto.FrameDTO;
 import pl.rozekm.bowling.api.dto.Game;
 import pl.rozekm.bowling.api.dto.Throw;
-import com.google.common.base.Preconditions;
+import pl.rozekm.bowling.api.service.FrameService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,28 @@ public class FrameServiceImpl implements FrameService {
         } else {
             processNormalFrame(currentFrame, currentThrow);
         }
+    }
+
+    @Override
+    public FrameDTO determineCurrentFrameDTO(List<FrameDTO> frames) {
+        FrameDTO currentFrame;
+
+        int size = frames.size();
+        if (size == 0) {
+            currentFrame = new FrameDTO();
+            frames.add(currentFrame);
+        } else if (size == 10) {
+            currentFrame = frames.get(9);
+        } else {
+            FrameDTO lastFrame = frames.get(size - 1);
+            if (lastFrame.getSecondRoll() == null) {
+                currentFrame = lastFrame;
+            } else {
+                currentFrame = new FrameDTO();
+                frames.add(currentFrame);
+            }
+        }
+        return currentFrame;
     }
 
     private void processNormalFrame(Frame currentFrame, Throw currentThrow) {

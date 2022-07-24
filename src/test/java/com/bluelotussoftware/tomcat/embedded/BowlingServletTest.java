@@ -27,7 +27,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BowlingServletTest extends TestCase {
+public class BowlingServletTest {
 
     @InjectMocks
     private final BowlingServlet bowlingServlet = new BowlingServlet();
@@ -43,7 +43,6 @@ public class BowlingServletTest extends TestCase {
         GameDTO gameDTO = createGameDTO();
         when(request.getParameter("game")).thenReturn(createGameString(gameDTO));
         when(request.getParameter("pins")).thenReturn("5");
-        //test
 
         StringWriter stringWriter = new StringWriter();
         PrintWriter writer = new PrintWriter(stringWriter);
@@ -54,7 +53,7 @@ public class BowlingServletTest extends TestCase {
 
         String result = stringWriter.toString();
         assertThat(result, is(notNullValue()));
-        assertThat(result, is("{\"frames\":[{\"firstRoll\":5,\"secondRoll\":0}]}"));
+        assertThat(result, is("{\"frames\":[{\"firstRoll\":5}]}"));
     }
 
     private GameDTO updateGame(GameDTO gameDTO) {
@@ -70,10 +69,5 @@ public class BowlingServletTest extends TestCase {
 
     private GameDTO createGameDTO() {
         return new GameDTO();
-    }
-
-    private PrintWriter createPrintWriter() {
-        StringWriter out = new StringWriter();
-        return new PrintWriter(out);
     }
 }

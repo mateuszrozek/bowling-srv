@@ -1,5 +1,6 @@
 package pl.rozekm.bowling.impl.service;
 
+import pl.rozekm.bowling.api.dto.FrameDTO;
 import pl.rozekm.bowling.api.dto.GameDTO;
 import pl.rozekm.bowling.api.service.FrameService;
 import pl.rozekm.bowling.api.service.GameService;
@@ -29,6 +30,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameDTO updateGameDTO(GameDTO gameDTO, int pinsNumber) {
+        FrameDTO currentFrame = frameService.determineCurrentFrameDTO(gameDTO.getFrames());
+        // check which frame is being processed
+        // save pins properly
+        // calculate score
         return gameDTO;
     }
 
